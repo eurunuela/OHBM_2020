@@ -18,7 +18,7 @@ social:
 
 # [This is a test](#this-is-a-test)
 
-This is a test
+This is a test [^1].
 
 ```python
 import numpy as np
@@ -28,3 +28,5 @@ s = 'This is a test'
 ![](https://images.unsplash.com/photo-1591803026220-6385999e82b4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80){:width="100%"}
 
 # [Second test](#second-test)
+
+[^1]: Test reference

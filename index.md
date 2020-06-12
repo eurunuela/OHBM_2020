@@ -28,7 +28,11 @@ The main goal of this work is to estimate neuronal-related activity without any 
 In the original SPFM formulation, for a given voxel, the fMRI signal $$y(t)$$ is explained as the convolution of the haemodynamic responde function (HRF) $$h(t)$$ and the activity-inducing signal $$s(t)$$. Gaussian noise $$n(t)$$ is also considered. As we know the neuronal-related signal is sparse, we estimate it by means of regularized least-squares with an L1 penalty.
 
 $$
-\mathbf{y} = \mathbf{H}\mathbf{s} + \mathbf{n} \; \; \; \; \longrightarrow \; \; \; \; \hat{\mathbf{s}}=\underset{\mathbf{s}}{\operatorname{argmin}} \frac{1}{2}\|\mathbf{y}-\mathbf{H s}\|_{2}^{2}+\lambda|\mathbf{s}|_{1}
+\mathbf{y} = \mathbf{H}\mathbf{s} + \mathbf{n} 
+$$
+
+$$
+\hat{\mathbf{s}}=\underset{\mathbf{s}}{\operatorname{argmin}} \frac{1}{2}\|\mathbf{y}-\mathbf{H s}\|_{2}^{2}+\lambda|\mathbf{s}|_{1}
 $$
 
 ![](./images/demo_r2_colors.png){:width="100%"}
@@ -37,7 +41,11 @@ $$
 Yet, this work introduces a modification to this formulation: the estimation of the innovation signal $$u(t)$$, which is the derivative of the activity-inducing signal; i.e. $$u = Ds$$. In order to estimate the innovation signal, we add an integration operator $$L$$ into our design matrix H, and we solve the same regularized least-squares problem.
 
 $$
-\mathbf{y} = \mathbf{H}\mathbf{L}\mathbf{s} + \mathbf{n} \; \; \; \; \longrightarrow \; \; \; \; \widehat{\mathbf{u}}=\underset{\mathbf{u}}{\operatorname{argmin}} \frac{1}{2}\|\mathbf{y}-\mathbf{H} \mathbf{L u}\|_{2}^{2}+\lambda|\mathbf{u}|_{1}
+\mathbf{y} = \mathbf{H}\mathbf{L}\mathbf{s} + \mathbf{n} 
+$$
+
+$$
+\widehat{\mathbf{u}}=\underset{\mathbf{u}}{\operatorname{argmin}} \frac{1}{2}\|\mathbf{y}-\mathbf{H} \mathbf{L u}\|_{2}^{2}+\lambda|\mathbf{u}|_{1}
 $$
 
 where
@@ -48,7 +56,11 @@ $$
 1 & -1 & 0 & \cdots & \\
 0 & \ddots & \ddots & \ddots & \ldots \\
 \vdots & \ddots & 0 & 1 & -1
-\end{array}\right], \; \; \; \; \mathbf{L}=\left[\begin{array}{ccccc}
+\end{array}\right], 
+$$
+
+$$
+\mathbf{L}=\left[\begin{array}{ccccc}
 1 & 0 & \cdots & & \\
 1 & 1 & 0 & \cdots & \\
 1 & 1 & 1 & 0 & \cdots \\

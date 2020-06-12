@@ -61,6 +61,10 @@ $$
 
 # [Regularization paths](#regularization-paths)
 
+![](./images/demo_regul_path_spk.png){:width="100%"}
+**Figure 3: Regularization path of activity-inducing signals.**
+
+
 # [Stability Selection](#stability-selection)
 
 <video autoplay loop style="width=70%">

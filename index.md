@@ -28,7 +28,7 @@ The main goal of this work is to estimate neuronal-related activity without any 
 In the original SPFM formulation, for a given voxel, the fMRI signal $$y(t)$$ is explained as the convolution of the haemodynamic responde function (HRF) $$h(t)$$ and the activity-inducing signal $$s(t)$$. Gaussian noise $$n(t)$$ is also considered. As we know the neuronal-related signal is sparse, we estimate it by means of regularized least-squares with an L1 penalty.
 
 $$
-\mathbf{y} = \mathbf{H}\mathbf{s} + \mathbf{n} 
+\mathbf{y} = \mathbf{H}\mathbf{s} + \mathbf{n}
 $$
 
 $$
@@ -36,9 +36,9 @@ $$
 $$
 
 ![](./images/demo_r2_colors.png){:width="100%"}
-**Figure 1: Simulated signal with activity-inducing signal $$s$$ of the 5 different events.**
+**Figure 1: Simulated signal with activity-inducing signal $$\mathbf{s}$$ of the 5 different simulated neuronal-related events.**
 
-Yet, this work introduces a modification to this formulation: the estimation of the innovation signal $$u(t)$$, which is the derivative of the activity-inducing signal; i.e. $$u = Ds$$. In order to estimate the innovation signal, we add an integration operator $$L$$ into our design matrix H, and we solve the same regularized least-squares problem.
+Yet, this work introduces a modification to this formulation: the estimation of the innovation signal $$u(t)$$, which is the derivative of the activity-inducing signal; i.e. $$\mathbf{u} = \mathbf{D}\mathbf{s}$$. In order to estimate the innovation signal, we add an integration operator $$\mathbf{L}$$ into our design matrix $$\mathbf{H}$$, and we solve the same regularized least-squares problem.
 
 $$
 \mathbf{y} = \mathbf{H}\mathbf{L}\mathbf{s} + \mathbf{n} 
@@ -69,13 +69,38 @@ $$
 $$
 
 ![](./images/demo_innovation_colors.png){:width="100%"}
-**Figure 2: Simulated signal with innovation signal $$u$$ of the 5 different events.**
+**Figure 2: Simulated signal with innovation signal $$\mathbf{u}$$ of the 5 different simulated neuronal-related events.**
 
 # [Regularization paths](#regularization-paths)
+
+The selection of the regularization parameter $$\lambda$$ is key for an optimal solution when solving optimization problems. This can be clearly seen when computing the regularization paths with the Least Angle Regression algorithm[^7] (see Figure 3 and 4), which can be done with the following lines of code:
+
+```python
+import matplotlib.pyplot as plt
+from sklearn.linear_model import lars_path as lars
+
+# After importing data and hrf matrices
+data_voxel = data[:, 0]
+nscans = data_voxel.shape[0]
+nlambdas = nscans + 1
+
+# Compute regularization path
+_, _, coef_path = lars(hrf, np.squeeze(data_voxel), method='lasso',
+                       Gram=np.dot(hrf.T, hrf), Xy=np.dot(hrf.T, np.squeeze(data_voxel)),
+                       max_iter=nlambdas-1, eps=1e-9)
+
+# Plot regularization path
+plt.plot(coef_path.T)
+plt.show()
+```
 
 ![](./images/demo_regul_path_spk.png){:width="100%"}
 **Figure 3: Regularization path of activity-inducing signals.**
 
+![](./images/demo_regul_path_int.png){:width="100%"}
+**Figure 4: Regularization path of innovation signals.**
+
+In the case of the activity-inducing signals, most of the events from the previous example appear at a high value of $$\lambda$$, while a few of them are buried in the lower values of $$\lambda$$. In the case of the innovation signals, it is not clear what the optimal $$\lambda$$ is, as  So, what is the value of $$\lambda$$ that yields the optimal solution?
 
 # [Stability Selection](#stability-selection)
 
@@ -98,3 +123,5 @@ $$
 [^5]: C. C. Gaudes, N. Petridou, I.L. Dryden, L. Bai, S.T. Francis, and P.A. Gowland, “Detection and Characterization of Single-Trial FMRI Bold Responses: Paradigm Free Mapping”, Human Brain Mapping, vol. 32, pp. 1400-1418, 2011.
 
 [^6]: C. Caballero-Gaudes, N. Petridou, S.T. Francis, I.L. Dryden, and P.A. Gowland, “Paradigm Free Mapping with Sparse Regression Automatically Detects Single-Trial Functional Magnetic Resonance Imaging Blood Oxygenation Level Dependent Responses”, Human Brain Mapping, vol. 34, pp. 501-518, 2013.
+
+[^7]: B. Efron, T. Hastie, I. Johnstone, and R. Tibshirani, “Least Angle Regression”, The Annals of Statistics, vol. 32, pp. 407–499, 2004.

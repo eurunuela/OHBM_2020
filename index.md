@@ -150,7 +150,7 @@ $$
 
 # [Benchmarking](#benchmarking)
 
-We tested the two improvements with a finger tapping paradigm that contained trials of single and multiple taps, as shown in the Figure 11.
+We tested the two improvements with a finger tapping paradigm that contained trials of single and multiple taps, as shown in Figure 11.
 
 ![](./images/finger_tapping.png){:width="100%"}
 **Figure 11: Estimates of the neuronal-related events for a finger tapping paradigm in a high SNR scenario. Each column shows a different moment in time of the finger tapping paradigm, with the three columns on the left belonging to single-tap events while the three columns on the right belong to multi-tap events.**

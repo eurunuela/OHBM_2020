@@ -67,7 +67,7 @@ $$
 
 # [Stability Selection](#stability-selection)
 
-<video class="embed_video" autoplay loop style="width=70%">
+<video class="embed_video" autoplay loop controls style="width=70%">
     <source src="./images/auc.mov" type="video/mp4">
 </video>
 
